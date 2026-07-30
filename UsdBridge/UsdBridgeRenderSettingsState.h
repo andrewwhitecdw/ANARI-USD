@@ -19,6 +19,7 @@ class UsdBridgeRenderSettingsState
 public:
     void InitializePaths(const pxr::SdfPath& contextId);
     void CreatePrims(pxr::UsdStageRefPtr stage);
+    void RemovePrims(pxr::UsdStageRefPtr stage);
     bool SetResolution(uint32_t width, uint32_t height);
     bool SetCameraPath(const pxr::SdfPath& cameraPath);
     const pxr::SdfPath& GetContextPath() const;

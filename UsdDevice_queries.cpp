@@ -956,6 +956,38 @@ static const void * ANARI_FRAME_usd__time_info(ANARIDataType paramType, int info
       default: return nullptr;
    }
 }
+static const void * ANARI_FRAME_usd__removePrim_info(ANARIDataType paramType, int infoName, ANARIDataType infoType) {
+   (void)paramType;
+   switch(infoName) {
+      case 0: // required
+         if(infoType == ANARI_BOOL) {
+            return &anari_false;
+         } else {
+            return nullptr;
+         }
+      case 1: // default
+         if(paramType == ANARI_BOOL && infoType == ANARI_BOOL) {
+            static const int8_t default_value[1] = {INT8_C(0)};
+            return default_value;
+         } else {
+            return nullptr;
+         }
+      case 4: // description
+         {
+            static const char *description = "Explicitly delete frame RenderContext and entry stage from USD output after commit";
+            return description;
+         }
+      case 7: // sourceExtension
+         if(infoType == ANARI_STRING) {
+            static const char *extension = "USD_DEVICE";
+            return extension;
+         } else if(infoType == ANARI_INT32) {
+            static const int32_t value = 19;
+            return &value;
+         }
+      default: return nullptr;
+   }
+}
 static const void * ANARI_FRAME_param_info(const char *paramName, ANARIDataType paramType, int infoName, ANARIDataType infoType) {
    switch(param_hash(paramName)) {
       case 49:
@@ -974,6 +1006,8 @@ static const void * ANARI_FRAME_param_info(const char *paramName, ANARIDataType 
          return ANARI_FRAME_channel_depth_info(paramType, infoName, infoType);
       case 109:
          return ANARI_FRAME_usd__time_info(paramType, infoName, infoType);
+      case 102:
+         return ANARI_FRAME_usd__removePrim_info(paramType, infoName, infoType);
       default:
          return nullptr;
    }
@@ -15900,6 +15934,7 @@ static const void * ANARI_FRAME_info(int infoName, ANARIDataType infoType) {
                {"channel.color", ANARI_DATA_TYPE},
                {"channel.depth", ANARI_DATA_TYPE},
                {"usd::time", ANARI_FLOAT64},
+               {"usd::removePrim", ANARI_BOOL},
                {0, ANARI_UNKNOWN}
             };
             return parameters;

@@ -44,6 +44,8 @@ void UsdRenderManager::UnregisterFrame(const char* frameName)
     if (!frameName)
         return;
 
+    // Memory-only: leave RenderContext + entry stage as session artifacts
+    // (same lifetime model as primstages on normal anariRelease).
     Frames.erase(std::string(frameName));
 }
 
@@ -64,6 +66,21 @@ void UsdRenderManager::UnregisterFrameByState(void* frameState)
             return;
         }
     }
+}
+
+void UsdRenderManager::DeleteFrame(const char* frameName)
+{
+    if (!frameName)
+        return;
+
+    auto it = Frames.find(std::string(frameName));
+    if (it == Frames.end())
+        return;
+
+    it->second.UsdRenderState.RemovePrims(UsdWriter.GetSceneStage());
+    UsdWriter.RemoveFrameEntryStage(frameName);
+    Frames.erase(it);
+    UsdWriter.SaveScene();
 }
 
 void* UsdRenderManager::GetFrameState(const char* frameName)

@@ -46,9 +46,14 @@ UsdFrame::~UsdFrame()
 
 void UsdFrame::remove(UsdDevice* device)
 {
+  // Called only via usd::removePrim (intentional USD deletion).
+  // Normal anariRelease uses the destructor, which UnregisterFrame in memory only.
   if (registeredFrameState)
   {
-    frameBridge->UnregisterFrame(getName());
+    if (!frameBridge)
+      frameBridge = device->getUsdBridge();
+    if (frameBridge)
+      frameBridge->DeleteFrame(getName());
     registeredFrameState = nullptr;
   }
 }

@@ -1247,6 +1247,13 @@ void UsdBridge::UnregisterFrameByState(void* frameState)
   Internals->RenderManager.UnregisterFrameByState(frameState);
 }
 
+void UsdBridge::DeleteFrame(const char* frameName)
+{
+  if (!SessionValid) return;
+
+  Internals->RenderManager.DeleteFrame(frameName);
+}
+
 void* UsdBridge::GetFrameState(const char* frameName)
 {
   if (!SessionValid) return nullptr;

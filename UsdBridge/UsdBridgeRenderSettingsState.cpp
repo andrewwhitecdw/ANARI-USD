@@ -48,6 +48,18 @@ void UsdBridgeRenderSettingsState::CreatePrims(UsdStageRefPtr stage)
     Product.GetOrderedVarsRel().AddTarget(VarPath);
 }
 
+void UsdBridgeRenderSettingsState::RemovePrims(UsdStageRefPtr stage)
+{
+    if (!stage || ContextPath.IsEmpty())
+    {
+        return;
+    }
+
+    Settings = UsdRenderSettings();
+    Product = UsdRenderProduct();
+    stage->RemovePrim(ContextPath);
+}
+
 bool UsdBridgeRenderSettingsState::SetResolution(uint32_t width, uint32_t height)
 {
     if (width == CachedWidth && height == CachedHeight)

@@ -103,6 +103,7 @@ class UsdBridge
     void RegisterFrame(const char* frameName);
     void UnregisterFrame(const char* frameName);
     void UnregisterFrameByState(void* frameState); // Unregister by state pointer (for name changes)
+    void DeleteFrame(const char* frameName); // usd::removePrim: delete RenderContext + entry stage
     void* GetFrameState(const char* frameName); // Returns opaque pointer for identity comparison
     void SetFrameRenderer(const char* frameName, const char* hydraRendererName);
     void SetFrameWorld(const char* frameName, UsdWorldHandle world);
