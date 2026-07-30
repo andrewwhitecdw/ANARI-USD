@@ -56,6 +56,10 @@ void UsdRenderManager::UnregisterFrameByState(void* frameState)
     {
         if (&it->second == frameState)
         {
+            // Frame renamed: the old entry stage filename is obsolete.
+            // Normal release/destructor uses UnregisterFrame and leaves the
+            // session artifact on disk (same lifetime model as primstages).
+            UsdWriter.RemoveFrameEntryStage(it->first.c_str());
             Frames.erase(it);
             return;
         }
@@ -79,6 +83,21 @@ UsdRenderManager::FrameState* UsdRenderManager::GetFrameStateInternal(const char
     return &it->second;
 }
 
+void UsdRenderManager::CreateFrameEntryStage(const char* frameName, FrameState* state)
+{
+    if (!frameName || !state)
+        return;
+
+    if (state->WorldPath.IsEmpty() || state->CameraPath.IsEmpty())
+        return;
+
+    UsdWriter.CreateFrameEntryStage(
+        frameName,
+        state->WorldPath,
+        state->CameraPath,
+        state->UsdRenderState.GetContextPath());
+}
+
 void UsdRenderManager::SetFrameCamera(const char* frameName, const pxr::SdfPath& cameraPath)
 {
     FrameState* state = GetFrameStateInternal(frameName);
@@ -95,6 +114,8 @@ void UsdRenderManager::SetFrameCamera(const char* frameName, const pxr::SdfPath&
         if (state->Context)
             state->Context->SetCameraPath(cameraPath);
     }
+
+    CreateFrameEntryStage(frameName, state);
 }
 
 void UsdRenderManager::SetFrameWorld(const char* frameName, const pxr::SdfPath& worldPath)
@@ -107,6 +128,8 @@ void UsdRenderManager::SetFrameWorld(const char* frameName, const pxr::SdfPath& 
 
     if (state->Context)
         state->Context->SetWorldPath(worldPath);
+
+    CreateFrameEntryStage(frameName, state);
 }
 
 void UsdRenderManager::SetFrameRenderSize(const char* frameName, uint32_t width, uint32_t height)

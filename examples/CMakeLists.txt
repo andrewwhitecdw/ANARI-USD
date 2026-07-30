@@ -43,6 +43,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE anari::anari stb_image ${PLATFORM_
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 set_example_debugger(${PROJECT_NAME})
 
+project(anariTutorialUsdDualWorld)
+add_executable(${PROJECT_NAME} anariTutorial_usd_dual_world.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE anari::anari stb_image ${PLATFORM_LIBS})
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+set_example_debugger(${PROJECT_NAME})
+
 if(USD_DEVICE_MPI_ENABLED)
   find_package(MPI REQUIRED COMPONENTS CXX)
   project(anariTutorialUsdMpi)

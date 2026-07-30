@@ -58,6 +58,9 @@ private:
     struct FrameState;
     FrameState* GetFrameStateInternal(const char* frameName);
 
+    // Emit Frame_<name>.usda once world + camera are both known.
+    void CreateFrameEntryStage(const char* frameName, FrameState* state);
+
     struct FrameState
     {
         std::string RendererName;
