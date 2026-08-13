@@ -6,6 +6,9 @@
 
 #include "UsdBridgeData.h"
 
+#include <functional>
+#include <utility>
+
 struct UsdBridgeInternals;
 typedef void* SceneStagePtr; // Placeholder for UsdStage*
 
