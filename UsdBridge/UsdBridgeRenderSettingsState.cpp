@@ -69,9 +69,9 @@ bool UsdBridgeRenderSettingsState::SetResolution(uint32_t width, uint32_t height
     CachedHeight = height;
 
     if (Settings)
-        Settings.GetResolutionAttr().Set(GfVec2i((int)width, (int)height));
+        Settings.GetResolutionAttr().Set(GfVec2i(static_cast<int>(width), static_cast<int>(height)));
     if (Product)
-        Product.GetResolutionAttr().Set(GfVec2i((int)width, (int)height));
+        Product.GetResolutionAttr().Set(GfVec2i(static_cast<int>(width), static_cast<int>(height)));
 
     return true;
 }
