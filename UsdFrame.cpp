@@ -32,6 +32,9 @@ UsdFrame::UsdFrame(const char* name, UsdDevice* device)
   : BridgedBaseObjectType(ANARI_FRAME, name, device)
 {
   frameBridge = device->getUsdBridge();
+  registeredFrameState = nullptr;
+  mappedColorMem = nullptr;
+  mappedDepthMem = nullptr;
 }
 
 UsdFrame::~UsdFrame()
