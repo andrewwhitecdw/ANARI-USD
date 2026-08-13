@@ -268,8 +268,8 @@ bool UsdRenderManager::IsRenderingEnabled() const
 
 UsdBridgeRendererCore* UsdRenderManager::GetOrCreateCore(const char* hydraRendererName)
 {
-    std::string name = hydraRendererName ? hydraRendererName : DefaultRendererName;
-
+    const char* rendererName = hydraRendererName ? hydraRendererName : DefaultRendererName;
+    std::string name(rendererName);
     auto it = Cores.find(name);
     if (it != Cores.end())
     {
@@ -278,7 +278,7 @@ UsdBridgeRendererCore* UsdRenderManager::GetOrCreateCore(const char* hydraRender
 
     // Create a new core for this renderer
     auto core = std::make_unique<UsdBridgeRendererCore>(UsdWriter);
-    core->Initialize(hydraRendererName);
+    core->Initialize(rendererName);
 
     UsdBridgeRendererCore* corePtr = core.get();
     Cores[name] = std::move(core);
