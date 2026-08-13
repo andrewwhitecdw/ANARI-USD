@@ -323,6 +323,17 @@ bool UsdBridge::OpenSession(UsdBridgeLogCallback logCallback, void* logUserData)
 void UsdBridge::CloseSession()
 {
   BRIDGE_USDWRITER.ResetSession();
+
+  // Unregister the diagnostic delegate registered in OpenSession before
+  // destroying it, so reopening the session does not free a live delegate.
+  if (Internals->DiagRemoveFunc)
+  {
+    Internals->DiagRemoveFunc(Internals->DiagnosticDelegate.get());
+    Internals->DiagRemoveFunc = nullptr;
+    Internals->DiagnosticDelegate.reset();
+  }
+
+  SessionValid = false;
 }
 
 UsdBridge::~UsdBridge()
