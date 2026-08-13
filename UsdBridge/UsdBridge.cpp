@@ -1189,7 +1189,7 @@ void UsdBridge::ChangeMaterialInputAttributes(UsdMaterialHandle material, const 
   UsdStageRefPtr materialStage = BRIDGE_USDWRITER.GetTimeVarStage(cache);
   UsdGeomPrimvarsAPI boundGeomPrimvars = Internals->GetBoundGeomPrimvars(material);
 
-  for(int i = 0; i < numInputAttribs; ++i)
+  for(size_t i = 0; i < numInputAttribs; ++i)
     BRIDGE_USDWRITER.UpdateAttributeReader(materialStage, matPrimPath, inputAttribs[i].first, inputAttribs[i].second, boundGeomPrimvars, timeStep, timeVarying);
 
 #ifdef VALUE_CLIP_RETIMING
