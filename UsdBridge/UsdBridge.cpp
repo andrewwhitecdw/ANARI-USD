@@ -1271,6 +1271,7 @@ void UsdBridge::SetFrameRenderer(const char* frameName, const char* hydraRendere
 void UsdBridge::SetFrameWorld(const char* frameName, UsdWorldHandle world)
 {
   if (!SessionValid) return;
+  if (world.value == nullptr) return;
 
   UsdBridgePrimCache* cache = BRIDGE_CACHE.ConvertToPrimCache(world);
   SdfPath worldPath;
