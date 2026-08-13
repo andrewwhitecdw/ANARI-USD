@@ -1282,6 +1282,7 @@ void UsdBridge::SetFrameWorld(const char* frameName, UsdWorldHandle world)
 void UsdBridge::SetFrameCamera(const char* frameName, UsdCameraHandle camera)
 {
   if (!SessionValid) return;
+  if (camera.value == nullptr) return;
 
   UsdBridgePrimCache* cache = BRIDGE_CACHE.ConvertToPrimCache(camera);
   SdfPath cameraPath;
