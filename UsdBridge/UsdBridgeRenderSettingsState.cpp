@@ -7,8 +7,6 @@
 
 #include <pxr/base/vt/value.h>
 
-#include <cassert>
-
 PXR_NAMESPACE_USING_DIRECTIVE
 
 void UsdBridgeRenderSettingsState::InitializePaths(const SdfPath& contextId)
